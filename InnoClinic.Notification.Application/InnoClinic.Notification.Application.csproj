@@ -9,14 +9,13 @@
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.4" />
     <PackageReference Include="MimeKit" Version="4.11.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.7.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InnoClinic.Notification.Core\InnoClinic.Notification.Core.csproj" />
+    <ProjectReference Include="..\InnoClinic.Notification.Infrastructure\InnoClinic.Notification.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

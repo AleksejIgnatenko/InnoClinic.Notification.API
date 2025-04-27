@@ -1,26 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InnoClinic.Notification.Core.Models.NotificationModels;
 
-namespace InnoClinic.Notification.Application.Services;
+namespace InnoClinic.Notification.Core.Abstractions;
 
+/// <summary>
+/// Defines methods for sending various notifications via email.
+/// </summary>
 public interface INotificationService
 {
     /// <summary>
     /// Asynchronously sends a verification email to the specified account.
     /// </summary>
-    /// <param name="account">The account model containing user information.</param>
-    /// <param name="urlHelper">The URL helper to generate confirmation links.</param>
+    /// <param name="sendVerificationEmailRequest">The request containing account ID, email address, and callback URL.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task SendVerificationEmailAsync(Guid accountId, string email, string callbackUrl);
+    Task SendVerificationEmailAsync(SendVerificationEmailRequest sendVerificationEmailRequest);
 
     /// <summary>
-    /// Sends a notification about an appointment via email.
+    /// Asynchronously sends login information to the specified email address.
     /// </summary>
-    /// <param name="accountId">The unique identifier of the account.</param>
-    /// <param name="patientFullName">The full name of the patient.</param>
-    /// <param name="date">The date of the appointment.</param>
-    /// <param name="time">The time of the appointment.</param>
-    /// <param name="medicalServiceName">The name of the medical service.</param>
-    /// <param name="doctorFullName">The full name of the doctor.</param>
-    Task SendNotificationAboutAppointmentAsync(Guid accountId, string patientFullName, string date,
-        string time, string medicalServiceName, string doctorFullName);
+    /// <param name="sendLoginInformationEmailRequest">The request containing email address, encrypted password, and full name.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task SendLoginInformationEmailAsync(SendLoginInformationEmailRequest sendLoginInformationEmailRequest);
+
+    /// <summary>
+    /// Asynchronously sends a notification about an appointment via email.
+    /// </summary>
+    /// <param name="sendNotificationAboutAppointmentRequest">The request containing account ID, patient details, appointment date and time, medical service name, and doctor’s full name.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task SendNotificationAboutAppointmentAsync(SendNotificationAboutAppointmentRequest sendNotificationAboutAppointmentRequest);
+
+    /// <summary>
+    /// Asynchronously sends an appointment result document to the specified email.
+    /// </summary>
+    /// <param name="sendAppointmentResultDocumentRequest">The request containing the PDF document bytes and the recipient email address.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task SendAppointmentResultDocumentAsync(SendAppointmentResultDocumentRequest sendAppointmentResultDocumentRequest);
 }

@@ -1,26 +1,28 @@
 ﻿using Serilog;
 using Serilog.Core;
 
-namespace InnoClinic.Authorization.API.Extensions
+namespace InnoClinic.Notification.API.Extensions;
+
+/// <summary>
+/// Contains extension methods for creating and configuring Serilog logger.
+/// </summary>
+public static class LoggerExtensions
 {
     /// <summary>
-    /// Provides extension methods for configuring and creating Serilog logger instances.
+    /// Creates a Serilog logger with the specified configuration and integrates it with the host builder.
     /// </summary>
-    public static class LoggerExtensions
+    /// <param name="loggerConfiguration">The Serilog logger configuration.</param>
+    /// <param name="hostBuilder">The host builder to integrate the logger with.</param>
+    /// <returns>The created Serilog logger.</returns>
+    public static Logger CreateSerilog(this LoggerConfiguration loggerConfiguration, IHostBuilder hostBuilder)
     {
-        /// <summary>
-        /// Creates a Serilog logger with the specified configuration.
-        /// </summary>
-        /// <param name="loggerConfiguration">The logger configuration to use for creating the logger.</param>
-        /// <returns>A configured <see cref="Logger"/> instance.</returns>
-        public static Logger CreateSerilog(this LoggerConfiguration loggerConfiguration)
-        {
-            Logger logger = loggerConfiguration
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
+        Logger logger = loggerConfiguration
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .CreateLogger();
 
-            return logger;
-        }
+        hostBuilder.UseSerilog(logger);
+
+        return logger;
     }
 }

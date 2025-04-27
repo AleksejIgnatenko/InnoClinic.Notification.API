@@ -15,6 +15,9 @@ COPY ["InnoClinic.Notification.Application/InnoClinic.Notification.Application.c
 COPY ["InnoClinic.Notification.Core/InnoClinic.Notification.Core.csproj", "InnoClinic.Notification.Core/"]
 COPY ["InnoClinic.Notification.Infrastructure/InnoClinic.Notification.Infrastructure.csproj", "InnoClinic.Notification.Infrastructure/"]
 
+# Копируем файл privateKey.xml
+COPY ["privateKey.xml", "InnoClinic.Notification.API/"]
+
 RUN dotnet restore "InnoClinic.Notification.API/InnoClinic.Notification.API.csproj"
 
 COPY . .
@@ -28,4 +31,8 @@ RUN dotnet publish "InnoClinic.Notification.API.csproj" -c $BUILD_CONFIGURATION 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Копируем файл privateKey.xml в финальный образ
+COPY --from=build /src/InnoClinic.Notification.API/privateKey.xml .
+
 ENTRYPOINT ["dotnet", "InnoClinic.Notification.API.dll"]

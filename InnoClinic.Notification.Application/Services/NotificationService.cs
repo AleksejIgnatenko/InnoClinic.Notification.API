@@ -11,12 +11,12 @@ namespace InnoClinic.Notification.Application.Services;
 /// <summary>
 /// Provides methods for sending various email notifications related to user accounts and appointments.
 /// </summary>
-public class NotificationService(IOptions<EmailOptions> emailSetting, IDataProtectionProvider dataProtectionProvider, IEncryptionService encryptionService) : INotificationService
+public class NotificationService(IOptions<EmailOptions> emailOptions, IDataProtectionProvider dataProtectionProvider, IEncryptionService encryptionService) : INotificationService
 {
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("EmailConfirmation");
     private readonly HttpClient _httpClient = new();
     private readonly IEncryptionService _encryptionService = encryptionService;
-    private readonly EmailOptions _emailSetting = emailSetting.Value;
+    private readonly EmailOptions _emailSetting = emailOptions.Value;
 
     /// <summary>
     /// Asynchronously sends a verification email to the specified email address.
@@ -25,8 +25,6 @@ public class NotificationService(IOptions<EmailOptions> emailSetting, IDataProte
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SendVerificationEmailAsync(SendVerificationEmailRequest sendVerificationEmailRequest)
     {
-        var token = GenerateEmailConfirmationToken(sendVerificationEmailRequest.Email);
-
         var subject = "Подтвердите ваш аккаунт";
         string message = $@"
                 <html>

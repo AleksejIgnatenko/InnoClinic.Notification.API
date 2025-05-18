@@ -27,7 +27,7 @@ public static class ProgramExtension
         builder.Services
             .AddOptions(builder.Configuration)
             .AddServices()
-            .AddSwaggerGen()
+            .AddCustomSwagger()
             .AddEndpointsApiExplorer()
             .AddJwtAuthentication(builder.Services.BuildServiceProvider().GetRequiredService<IOptions<JwtOptions>>())
             .AddHttpClient()
